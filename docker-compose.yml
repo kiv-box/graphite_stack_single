@@ -1,0 +1,33 @@
+---
+
+version: "3.3"
+
+services:
+
+  go-carbon:
+    container_name: go-carbon
+    hostname: go-carbon
+    user: go-carbon
+    build:
+      context: ./go-carbon
+    volumes:
+      - ./_data:/var/lib/graphite:rw
+    ports:
+      - "2003:2003"
+      - "2003:2003/udp"
+      - "2004:2004"
+      - "7002:7002"
+      - "7007:7007"
+      - "8080:8080"
+    #restart: always
+
+  carbon-c-relay:
+    container_name: carbon-c-relay
+    hostname: carbon-c-relay
+    user: carbon-c-relay
+    build:
+      context: ./carbon-c-relay
+    ports:
+      - "2411:2411"
+    #restart: always
+
