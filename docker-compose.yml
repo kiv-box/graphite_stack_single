@@ -19,7 +19,7 @@ services:
       - "7002:7002"
       - "7007:7007"
       - "8080:8080"
-    #restart: always
+    restart: always
 
   carbon-c-relay:
     container_name: carbon-c-relay
@@ -27,7 +27,8 @@ services:
     user: carbon-c-relay
     build:
       context: ./carbon-c-relay
+    depends_on:
+      - go-carbon
     ports:
       - "2411:2411"
-    #restart: always
-
+    restart: always

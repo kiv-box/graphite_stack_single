@@ -1,2 +1,4 @@
-_data/whisper/carbon
+_data/whisper/
+!_data/whisper/.gitkeep
 _data/dump/*
+!_data/dump/.gitkeep
