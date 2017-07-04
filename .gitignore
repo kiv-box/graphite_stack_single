@@ -1,4 +1,8 @@
-_data/whisper/
-!_data/whisper/.gitkeep
-_data/dump/*
-!_data/dump/.gitkeep
+storage/go-carbon/whisper/*
+!storage/go-carbon/whisper/.gitkeep
+storage/go-carbon/dump/*
+!storage/go-carbon/dump/.gitkeep
+storage/graphite-web/*
+!storage/graphite-web/.gitkeep
+storage/graphite-web/log/*
+!storage/graphite-web/log/.gitkeep

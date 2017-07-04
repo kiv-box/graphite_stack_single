@@ -1,6 +1,6 @@
 ---
 
-version: "3.3"
+version: '3.3'
 
 services:
 
@@ -11,14 +11,14 @@ services:
     build:
       context: ./go-carbon
     volumes:
-      - ./_data:/var/lib/graphite:rw
+      - ./storage/go-carbon:/var/lib/graphite:rw
     ports:
-      - "2003:2003"
-      - "2003:2003/udp"
-      - "2004:2004"
-      - "7002:7002"
-      - "7007:7007"
-      - "8080:8080"
+      - 2003:2003
+      - 2003:2003/udp
+      - 2004:2004
+      - 7002:7002
+      - 7007:7007
+      - 8090:8090
     restart: always
 
   carbon-c-relay:
@@ -30,5 +30,65 @@ services:
     depends_on:
       - go-carbon
     ports:
-      - "2411:2411"
+      - 2411:2411
     restart: always
+
+  memcached:
+    container_name: memcached
+    hostname: memcached
+    user: memcache
+    image: memcached:1.4.38-alpine
+    command: ["memcached", "-m", "1024", "-v"]
+    depends_on:
+      - go-carbon
+    ports:
+      - 11211:11211
+    #restart: always
+
+  graphite-web:
+    container_name: graphite-web
+    hostname: graphite-web
+    build:
+      context: ./graphite-web
+    depends_on:
+      - go-carbon
+      - memcached
+    volumes:
+      - ./graphite-web/conf:/opt/graphite/conf:ro
+      - ./storage/graphite-web:/opt/graphite/storage:rw
+      - ./storage/go-carbon/whisper:/opt/graphite/storage/whisper:ro
+    ports:
+      - 8080:8080
+    restart: always
+
+  grafana:
+    container_name: grafana
+    hostname: grafana
+    image: grafana/grafana:4.3.2
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_METRICS_INTERVAL_SECONDS: 60
+      GF_METRICS_GRAPHITE_ADDRESS: carbon-c-relay:2411
+      GF_METRICS_GRAPHITE_PREFIX: carbon.grafana.
+      GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app,grafana-clock-panel,grafana-piechart-panel,grafana-simple-json-datasource,grafana-worldmap-panel
+    depends_on:
+      - graphite-web
+    volumes:
+      - ./storage/grafana:/var/lib/grafana:rw
+    ports:
+      - 3000:3000
+    restart: always
+
+  tests:
+    container_name: tests
+    hostname: tests
+    image: alpine:3.6
+    command: sh -c 'while true; do /scripts/tests_int.sh; sleep 60; done'
+    depends_on:
+      - carbon-c-relay
+      - go-carbon
+    volumes:
+      - ./scripts:/scripts:ro
+    restart: always
+

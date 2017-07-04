@@ -18,6 +18,6 @@ ENTRYPOINT ["tini", "--"]
 
 CMD ["/usr/sbin/go-carbon", "-config", "/etc/go-carbon/go-carbon.conf"]
 
-EXPOSE 2003 2003/udp 2004 7002 7007 8080
+EXPOSE 2003 2003/udp 2004 7002 7007 8090
 VOLUME /var/lib/graphite
 USER go-carbon
