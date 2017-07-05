@@ -40,12 +40,12 @@ ADD docker/docker-entrypoint.sh /docker-entrypoint.sh
 ADD docker/nginx.conf /etc/nginx/nginx.conf
 ADD docker/supervisord.conf /etc/supervisord.conf
 
-RUN adduser -D -g graphte-web graphte-web \
+RUN adduser -D -g graphite-web graphite-web \
     && sed -ie 's/^root::/root:!:/' /etc/shadow \
     && chown root:root /docker-entrypoint.sh /etc/nginx/nginx.conf /etc/supervisord.conf \
-    && chmod 755 /docker-entrypoint.sh /etc/nginx/nginx.conf /etc//supervisord.conf \
+    && chmod 755 /docker-entrypoint.sh /etc/nginx/nginx.conf /etc/supervisord.conf \
     && mkdir -p /opt/graphite/static \
-    && chown -Rv graphte-web:graphte-web /var/log/nginx \
+    && chown -Rv graphite-web:graphite-web /var/log/nginx \
                  /opt/graphite/static \
                  /opt/graphite/storage \
                  /opt/graphite/conf \
@@ -53,7 +53,7 @@ RUN adduser -D -g graphte-web graphte-web \
                  /var/tmp/nginx \
                  /var/lib/nginx
 
-USER graphte-web
+USER graphite-web
 
 EXPOSE 8080
 
