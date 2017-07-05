@@ -43,7 +43,7 @@ services:
       - go-carbon
     ports:
       - 11211:11211
-    #restart: always
+    restart: always
 
   graphite-web:
     container_name: graphite-web
