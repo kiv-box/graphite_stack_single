@@ -26,7 +26,7 @@ ADD conf/* /etc/carbon-c-relay/
 
 ENTRYPOINT ["tini", "--"]
 
-CMD [ "/usr/sbin/carbon-c-relay", "-f", "/etc/carbon-c-relay/carbon-c-relay.conf", "-p", "2411", "-w", "8", "-b", "5000", "-q", "12500000", "-S", "60", "-H", "carbon-c-realy" ]
+CMD [ "/usr/sbin/carbon-c-relay", "-f", "/etc/carbon-c-relay/carbon-c-relay.conf", "-p", "2411", "-w", "8", "-b", "5000", "-q", "12500000", "-S", "60", "-H", "carbon-c-relay" ]
 
 EXPOSE 2411
 

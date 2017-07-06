@@ -6,3 +6,5 @@ storage/graphite-web/*
 !storage/graphite-web/.gitkeep
 storage/graphite-web/log/*
 !storage/graphite-web/log/.gitkeep
+storage/grafana/*
+!storage/grafana/.gitkeep
